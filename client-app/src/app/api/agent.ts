@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Activity } from "../models/activity";
 
 const sleep = (delay : number) => {       //建立一個延遲時間，來模擬遠端加載時的數據傳輸狀態
