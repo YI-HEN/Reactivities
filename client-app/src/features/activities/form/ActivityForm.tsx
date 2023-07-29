@@ -33,19 +33,19 @@ export default observer(function ActivityForm() {
     });
 
     const validationSchema = Yup.object({
-        title : Yup.string().required('The activity title is required'),
-        description : Yup.string().required('The activity description is required'),
-        category : Yup.string().required(),
-        date : Yup.string().required().nullable(),
-        venue : Yup.string().required(),
-        city : Yup.string().required()
+        title: Yup.string().required('The activity title is required'),
+        description: Yup.string().required('The activity description is required'),
+        category: Yup.string().required(),
+        date: Yup.string().required(),
+        venue: Yup.string().required(),
+        city: Yup.string().required()
     })
 
     useEffect(() => {
         if (id) loadActivity(id).then(activity => setActivity(activity!));
     }, [id, loadActivity]);
 
-    function handleFormSubmit(activity : Activity){
+    function handleFormSubmit(activity: Activity) {
         if (!activity.id) {
             activity.id = uuid();
             createActivity(activity).then(() => navigate(`/activities/${activity.id}`))
@@ -65,28 +65,28 @@ export default observer(function ActivityForm() {
                 initialValues={activity}
                 onSubmit={values => handleFormSubmit(values)}
             >
-                {({ handleSubmit , isValid , isSubmitting , dirty }) => (
+                {({ handleSubmit, isValid, isSubmitting, dirty }) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                         <MyTextInput name='title' placeholder='Title' />
                         <MyTextArea rows={3} placeholder='Description' name='description' />
                         <MySelectInput options={categoryOptions} placeholder='Category' name='category' />
-                        <MyDateInput 
-                            placeholderText='Date' 
+                        <MyDateInput
+                            placeholderText='Date'
                             name='date'
                             showTimeSelect
                             timeCaption='time'
-                            dateFormat='MMMM d, yyyy h:mm aa' 
+                            dateFormat='MMMM d, yyyy h:mm aa'
                         />
                         <Header content='Location Details' sub color='teal' />
                         <MyTextInput placeholder='City' name='city' />
                         <MyTextInput placeholder='Venue' name='venue' />
-                        <Button 
-                            loading={loading} 
-                            floated='right' 
-                            positive 
-                            type='submit' 
+                        <Button
+                            loading={loading}
+                            floated='right'
+                            positive
+                            type='submit'
                             content='Submit'
-                            disabled={ isSubmitting || !dirty || !isValid } 
+                            disabled={isSubmitting || !dirty || !isValid}
                         />
                         <Button as={Link} to='/activities' floated='right' type='button' content='Cancel' />
                     </Form>
