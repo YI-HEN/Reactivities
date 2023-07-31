@@ -32,11 +32,11 @@ namespace API.Services
                 SigningCredentials = creds
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = new JwtSecurityTokenHandler(); 
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor); //製作Token
 
-            return tokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(token); //回傳Token
         }
     }
 }

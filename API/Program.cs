@@ -20,7 +20,7 @@ builder.Services.AddControllers(opt => //註冊各項controller
 
 builder.Services.AddApplicationServices(builder.Configuration); //註冊我們要的額外服務，傳入builder.Configuration給裡面需要Configuration的服務
 
-builder.Services.AddIdentityServices(builder.Configuration); //註冊身分驗證的額外服務，Extentions
+builder.Services.AddIdentityServices(builder.Configuration); //註冊身分驗證的額外服務，Extensions
 
 var app = builder.Build(); //內建生成
 
