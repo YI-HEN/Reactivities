@@ -1,7 +1,9 @@
 using System.Text;
 using API.Services;
 using Domain;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 
@@ -33,6 +35,14 @@ namespace API.Extensions
                 };
             });
 
+            services.AddAuthorization(opt =>     //註冊驗證規則
+            {
+                opt.AddPolicy("IsActivityHost", policy =>  //驗證規則名稱
+                {
+                    policy.Requirements.Add(new IsHostRequirement());  //驗證規則的注入函式
+                });
+            });
+            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();  //注入容器，要求"IsActivityHost"策略
 
             services.AddScoped<TokenServices>(); //建立一個製作Token的空間，有HTTP請求會重新做一個Scoped
 
