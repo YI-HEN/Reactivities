@@ -1,13 +1,13 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Activity } from "../models/activity";
+import { Activity, ActivityFormValues } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Router";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/users";
 
-const sleep = (delay : number) => {       //建立一個延遲時間，來模擬遠端加載時的數據傳輸狀態
+const sleep = (delay: number) => {       //建立一個延遲時間，來模擬遠端加載時的數據傳輸狀態
     return new Promise((resolve) => {
-        setTimeout(resolve , delay)
+        setTimeout(resolve, delay)
     })
 }
 
@@ -20,19 +20,19 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
-        await sleep(1000);
-        return response;
-} , (error : AxiosError) => {
-    const {data , status , config} = error.response as AxiosResponse; //解構語法:會從error.response取出相對應(名稱相同的)的data及status賦值
-    switch(status){
-        case 400 :
-            if (config.method === 'get' && data.errors.hasOwnProperty('id')){
+    await sleep(1000);
+    return response;
+}, (error: AxiosError) => {
+    const { data, status, config } = error.response as AxiosResponse; //解構語法:會從error.response取出相對應(名稱相同的)的data及status賦值
+    switch (status) {
+        case 400:
+            if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
                 router.navigate('/not-found');
             }
-            if (data.errors){
+            if (data.errors) {
                 const modelStateErrors = [];
-                for (const key in data.errors){
-                    if (data.errors[key]){
+                for (const key in data.errors) {
+                    if (data.errors[key]) {
                         modelStateErrors.push(data.errors[key])
                     }
                 }
@@ -41,13 +41,13 @@ axios.interceptors.response.use(async response => {
                 toast.error(data);
             }
             break
-        case 401 :
-            toast.error('unauthorised')
+        case 401:
+            toast.error('unauthorized')
             break
-        case 403 :
+        case 403:
             toast.error('forbidden')
             break
-        case 404 :
+        case 404:
             router.navigate('/not-found')
             break
         case 500:
@@ -58,31 +58,31 @@ axios.interceptors.response.use(async response => {
     return Promise.reject(error);
 })
 
-const responseBody = <T> (response : AxiosResponse<T>) => response.data;
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-    get : <T> (url : string) => axios.get<T>(url).then(responseBody),
-    post : <T> (url : string , body : {}) => axios.post<T>(url , body).then(responseBody),
-    //put : <T> (url : string , body : {}) => axios.put<T>(url , body).then(responseBody),
-    //del : <T> (url : string) => axios.delete(url).then<T>(responseBody)
+    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+    del: <T>(url: string) => axios.delete(url).then<T>(responseBody)
 }
 
 const Activities = {
-    list : () => requests.get<Activity[]>('/activities'), 
-    details : (id : string) => requests.get<Activity>(`/activities/${id}`),
-    create : (activity : Activity) => axios.post<void>('/activities' , activity),
-    update : (activity : Activity) => axios.put<void>(`/activities/${activity.id}` , activity),
-    delete : (id : string) => axios.delete<void>(`/activities/${id}`),
-
+    list: () => requests.get<Activity[]>('/activities'),
+    details: (id: string) => requests.get<Activity>(`/activities/${id}`),
+    create: (activity: ActivityFormValues) => requests.post<void>('/activities', activity),
+    update: (activity: ActivityFormValues) => requests.put<void>(`/activities/${activity.id}`, activity),
+    delete: (id: string) => requests.del<void>(`/activities/${id}`),
+    attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {})
 }
 
 const Account = {
-    current : () => requests.get<User>('/account'),
-    login : (user : UserFormValues) => requests.post<User>('/account/login' , user),
-    register : (user : UserFormValues) => requests.post<User>('/account/register' , user),
+    current: () => requests.get<User>('/account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user),
 }
 
-const agent = { 
+const agent = {
     Activities,
     Account
 }
