@@ -43,7 +43,7 @@ app.MapControllers();
 using var scope = app.Services.CreateScope(); 
 var services = scope.ServiceProvider;  
 
-try //Migrate(移民)我們做好的Seed並建構DB
+try //Migrate(移民)做好的Seed並建構DB
 {
     var context = services.GetRequiredService<DataContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
