@@ -32,12 +32,14 @@ namespace API.Extensions
             });
             services.AddMediatR(typeof(List.Handler)); 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly); //AutoMapper
-            services.AddFluentValidationAutoValidation(); //身分驗證
-            services.AddValidatorsFromAssemblyContaining<Create>(); //身分驗證(同namespace註冊一次即可)
+            services.AddFluentValidationAutoValidation();
+                //當需要進行模型驗證時使用FluentValidation的驗證功能
+            services.AddValidatorsFromAssemblyContaining<Create>(); 
+                //自動將所有繼承自 AbstractValidator 的類型註冊為驗證器。(同namespace註冊一次即可)
             services.AddHttpContextAccessor(); //http請求取得服務
             services.AddScoped<IUserAccessor, UserAccessor>(); //取得當前用戶
             services.AddScoped<IPhotoAccessor, PhotoAccessor>(); //取得用戶圖片
-            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary")); //設定雲端
 
             return services;
 

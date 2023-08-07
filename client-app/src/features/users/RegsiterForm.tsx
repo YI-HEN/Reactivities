@@ -1,5 +1,5 @@
 import { ErrorMessage, Form, Formik } from "formik";
-import MyTextInput from "../../app/common/from/MyTextInput";
+import MyTextInput from "../../app/common/form/MyTextInput";
 import { Button, Header } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
@@ -29,7 +29,7 @@ export default observer(function RegsiterForm() {
                     <MyTextInput placeholder="Password" name='password' type='password' />
                     <ErrorMessage
                         name='error'
-                        render={() => <ValidationErrors errors = {errors.error} />}
+                        render={() => <ValidationErrors errors={errors.error} />}
                     />
                     <Button
                         disabled={!isValid || !dirty || isSubmitting}

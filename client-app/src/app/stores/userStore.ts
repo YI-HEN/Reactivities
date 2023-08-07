@@ -5,17 +5,17 @@ import { store } from "./store";
 import { router } from "../router/Router";
 
 export default class UserStore {
-    user : User | null = null;
-    
-    constructor(){
+    user: User | null = null;
+
+    constructor() {
         makeAutoObservable(this);
     }
 
-    get isLoggedIn () {
+    get isLoggedIn() {
         return !!this.user; //user有值為true
     }
 
-    login = async (creds : UserFormValues) => {
+    login = async (creds: UserFormValues) => {
         try {
             const user = await agent.Account.login(creds);
             store.commonStore.setToken(user.token);
@@ -27,7 +27,7 @@ export default class UserStore {
         }
     }
 
-    register = async (creds : UserFormValues) => {
+    register = async (creds: UserFormValues) => {
         try {
             const user = await agent.Account.register(creds);
             store.commonStore.setToken(user.token);
@@ -57,5 +57,9 @@ export default class UserStore {
 
     setImage = async (image: string) => {
         if (this.user) this.user.image = image;
+    }
+
+    setDisplayName = (name: string) => {
+        if (this.user) this.user.displayName = name;
     }
 }

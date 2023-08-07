@@ -89,11 +89,12 @@ const Profiles = {
         let formData = new FormData();
         formData.append('File', file);//與API名稱需相同
         return axios.post<Photo>('photos', formData, {
-            headers: {'Content-Type': 'multipart/form-data'}
+            headers: { 'Content-Type': 'multipart/form-data' }
         })
     },
     setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
-    deletePhoto: (id: string) => requests.del(`/photos/${id}`)
+    deletePhoto: (id: string) => requests.del(`/photos/${id}`),
+    updateProfile: (profile: Partial<Profile>) => requests.put('/profiles', profile)
 }
 
 const agent = {
