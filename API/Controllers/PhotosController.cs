@@ -8,7 +8,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Add ([FromForm] Add.Command command)
         //public async Task<IActionResult> Add ([FromForm] IFormFile command) 標註與未標註擇一使用
-
         {
             return HandleResult(await Mediator.Send(command));
             //return HandleResult(await Mediator.Send(new Add.Command{File = command})); 標註與未標註擇一使用
