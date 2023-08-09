@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,7 @@ app.UseAuthentication(); //身分驗證
 app.UseAuthorization(); //授權
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chat"); //SignalR的路由
 
 using var scope = app.Services.CreateScope(); 
 var services = scope.ServiceProvider;  

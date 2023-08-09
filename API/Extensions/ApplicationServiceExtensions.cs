@@ -27,8 +27,13 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy => 
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); //首頁
+                    policy
+                        .AllowAnyMethod()   //允許任意的請求方法(GET、POST..)
+                        .AllowAnyHeader()   //允許任意的請求標頭
+                        .AllowCredentials() //跨域請求中使用身份驗證憑證(SignalR)
+                        .WithOrigins("http://localhost:3000"); //首頁
                 });
+
             });
             services.AddMediatR(typeof(List.Handler)); 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly); //AutoMapper
@@ -40,6 +45,7 @@ namespace API.Extensions
             services.AddScoped<IUserAccessor, UserAccessor>(); //取得當前用戶
             services.AddScoped<IPhotoAccessor, PhotoAccessor>(); //取得用戶圖片
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary")); //設定雲端
+            services.AddSignalR(); //註冊SignalR服務
 
             return services;
 

@@ -1,5 +1,6 @@
 import { makeAutoObservable, reaction } from "mobx";
 import { serverError } from "../models/serverError";
+import { store } from "./store";
 
 export default class CommonStore{
     error : serverError | null = null;
@@ -32,4 +33,5 @@ export default class CommonStore{
     setAppLoaded = () => {
         this.appLoaded = true;
     }
+
 }

@@ -33,6 +33,20 @@ namespace API.Extensions
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+
+                opt.Events = new JwtBearerEvents //SignalR特殊驗證方式
+                {
+                    OnMessageReceived = context => //委派->context變成MessageReceivedContext下面就是操作MessageReceivedContext物件
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             services.AddAuthorization(opt =>     //註冊驗證規則
@@ -50,3 +64,4 @@ namespace API.Extensions
         }
     }
 }
+
