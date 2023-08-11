@@ -55,7 +55,7 @@ try //Migrate(移民)做好的Seed並建構DB
 catch (Exception e)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(e, "An error occured during migrations");
+    logger.LogError(e, "An error occurred during migrations");
 }
 
 app.Run();

@@ -51,7 +51,7 @@ namespace Application.Photos
 
                 if (result) return Result<Photo>.Success(photo);
 
-                return Result<Photo>.Failure("Problem adding photo"); 
+                return Result<Photo>.Failure("Problem adding photo");
             }
         }
     }

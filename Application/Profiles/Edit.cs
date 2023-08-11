@@ -36,13 +36,13 @@ namespace Application.Profiles
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
 
                 user.Bio = request.Bio ?? user.Bio;
-                
+
                 user.DisplayName = request.DisplayName ?? user.DisplayName;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Result<Unit>.Success(Unit.Value);
-                
+
                 return Result<Unit>.Failure("Problem updating profile");
             }
         }

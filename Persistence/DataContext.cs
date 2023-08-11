@@ -14,6 +14,7 @@ namespace Persistence
         public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserFollowing> UserFollowings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) //建立關聯
         {
@@ -35,6 +36,21 @@ namespace Persistence
                 .HasOne(a => a.Activity)
                 .WithMany(c => c.Comments)
                 .OnDelete(DeleteBehavior.Cascade);//若Comment被刪除，則Activity與Comments中也會同步刪除
+
+            builder.Entity<UserFollowing>(b => 
+            {
+                b.HasKey(k => new {k.ObserverId, k.TargetId}); //聯合主鍵(外鍵1+2)
+
+                b.HasOne(o => o.Observer)
+                    .WithMany(f => f.Followings)
+                    .HasForeignKey(o => o.ObserverId) //外鍵1
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(o => o.Target)
+                    .WithMany(f => f.Followers)
+                    .HasForeignKey(o => o.TargetId) //外鍵2
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

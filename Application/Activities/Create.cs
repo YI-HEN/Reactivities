@@ -19,11 +19,11 @@ namespace Application.Activities
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Activity).SetValidator(new ActivityValidator());        
+                RuleFor(x => x.Activity).SetValidator(new ActivityValidator());
             }
         }
 
-        public class Handler : IRequestHandler<Command , Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;

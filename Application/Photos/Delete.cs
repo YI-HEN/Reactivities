@@ -47,7 +47,7 @@ namespace Application.Photos
                 user.Photos.Remove(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;
- 
+
                 if (success) return Result<Unit>.Success(Unit.Value);
 
                 return Result<Unit>.Failure("Problem deleting photo from API");
