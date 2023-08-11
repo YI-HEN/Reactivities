@@ -26,7 +26,7 @@ export default class CommentStore {
             this.hubConnection.on('LoadComments', (comments: ChatComment[]) => {
                 runInAction(() => {
                     comments.forEach(comment => {
-                        // comment.createdAt = new Date(comment.createdAt + 'Z');   //未知錯誤
+                        comment.createdAt = new Date(comment.createdAt + 'Z'); //加 " Z " 可以使顯示變成當地時間
                     })                   
                     this.comments = comments
                 });
@@ -34,8 +34,8 @@ export default class CommentStore {
 
             this.hubConnection.on('ReceiveComment', (comment: ChatComment) => {
                 runInAction(() => {
-                    // comment.createdAt = new Date(comment.createdAt)    //未知錯誤
-                    this.comments.unshift(comment)
+                    comment.createdAt = new Date(comment.createdAt);
+                    this.comments.unshift(comment);
                 })
             })
         }
