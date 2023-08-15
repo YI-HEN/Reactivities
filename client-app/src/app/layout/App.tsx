@@ -1,7 +1,7 @@
 import { Container } from 'semantic-ui-react';
 import NavBar from './NavBar';
 import { observer } from 'mobx-react-lite';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import HomePage from '../../features/home/homePage';
 import { ToastContainer } from 'react-toastify';
 import { useStore } from '../stores/store';
@@ -25,6 +25,7 @@ function App() {
 
   return (
     <>{/*  <Fragment>在React的簡寫，return只能返回一個元素，因此要用<Fragment>包裹 */}
+      <ScrollRestoration/> {/* 重新載入頁面強制捲動至頂部 */}
       <ModalContainer />
       <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
         {location.pathname === '/' ? <HomePage /> : (

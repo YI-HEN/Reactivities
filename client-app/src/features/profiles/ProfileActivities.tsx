@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import { UserActivity } from '../../app/models/profile';
 import { format } from 'date-fns';
 import { useStore } from "../../app/stores/store";
+
 const panes = [
     { menuItem: 'Future Events', pane: { key: 'future' } },
     { menuItem: 'Past Events', pane: { key: 'past' } },
     { menuItem: 'Hosting', pane: { key: 'hosting' } }
 ];
+
 export default observer(function ProfileActivities() {
     const { profileStore } = useStore();
     const {
@@ -24,12 +26,11 @@ export default observer(function ProfileActivities() {
     }, [loadUserActivities, profile]);
 
     const handleTabChange = (e: SyntheticEvent, data: TabProps) => {
-        loadUserActivities(profile!.username, panes[data.activeIndex as
-            number].pane.key);
+        loadUserActivities(profile!.username, panes[data.activeIndex as number].pane.key);
     };
 
     return (
-        <Tab.Pane>  {/* loading={loadingActivities} */}
+        <Tab.Pane>
             <Grid>
                 <Grid.Column width={16}>
                     <Header floated='left' icon='calendar' content={'Activities'} />

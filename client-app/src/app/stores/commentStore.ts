@@ -14,7 +14,7 @@ export default class CommentStore {
     createHubConnection = (activityId: string) => {
         if (store.activityStore.selectedActivity) {
             this.hubConnection = new HubConnectionBuilder()
-                .withUrl('http://localhost:5000/chat?activityId=' + activityId, {
+                .withUrl(process.env.REACT_APP_CHAT_URL + '?activityId=' + activityId, {
                     accessTokenFactory: () => store.userStore.user?.token!
                 })
                 .withAutomaticReconnect()
@@ -26,8 +26,9 @@ export default class CommentStore {
             this.hubConnection.on('LoadComments', (comments: ChatComment[]) => {
                 runInAction(() => {
                     comments.forEach(comment => {
-                        comment.createdAt = new Date(comment.createdAt + 'Z'); //加 " Z " 可以使顯示變成當地時間
-                    })                   
+                        comment.createdAt = new Date(comment.createdAt); 
+                        //SQLite:加 " Z " 可以使顯示變成當地時間; PostgreSQL支援UTC時間，可以把 " + 'Z' " 刪除
+                    })
                     this.comments = comments
                 });
             });
@@ -50,7 +51,7 @@ export default class CommentStore {
         this.stopHubConnection();
     }
 
-    
+
     addComment = async (values: any) => {
         values.activityId = store.activityStore.selectedActivity?.id;
         try {

@@ -23,6 +23,7 @@ builder.Services.AddApplicationServices(builder.Configuration); //註冊我們�
 
 builder.Services.AddIdentityServices(builder.Configuration); //註冊身分驗證的額外服務，Extensions
 
+
 var app = builder.Build(); //內建生成
 
 app.UseMiddleware<ExceptionMiddleware>(); //使用中介器<我們做的例外中介器>
@@ -39,8 +40,12 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication(); //身分驗證
 app.UseAuthorization(); //授權
 
-app.MapControllers();
+app.UseDefaultFiles(); //使用預設文件
+app.UseStaticFiles(); //使用靜態文件(wwwroot)
+
+app.MapControllers(); //路由的控制
 app.MapHub<ChatHub>("/chat"); //SignalR的路由
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope(); 
 var services = scope.ServiceProvider;  
