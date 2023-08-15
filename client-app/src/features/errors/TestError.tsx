@@ -4,7 +4,7 @@ import axios from 'axios';
 import ValidationError from './ValidationErrors';
 
 export default function TestErrors() {
-    const [errors , setErrors] = useState(null);
+    const [errors, setErrors] = useState(null);
 
     function handleNotFound() {
         axios.get('/buggy/not-found').catch(err => console.log(err.response));
@@ -43,9 +43,7 @@ export default function TestErrors() {
                     <Button onClick={handleBadGuid} content='Bad Guid' basic primary />
                 </Button.Group>
             </Segment>
-            {errors && <ValidationError errors = {errors} />}
+            {errors && <ValidationError errors={errors} />}
         </>
     )
 }
-
-
