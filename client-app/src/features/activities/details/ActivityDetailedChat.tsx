@@ -79,7 +79,7 @@ export default observer(function ActivityDetailedChat({ activityId }: Props) {
                                 </Comment.Author>
                                 <Comment.Metadata>
                                     <div>
-                                        {formatDistanceToNow(comment.createdAt)}
+                                        {/* {formatDistanceToNow(comment.createdAt)} */}
                                     </div>
                                 </Comment.Metadata>
                                 <Comment.Text style={{ whiteSpace: 'pre-wrap' }}>{comment.body}</Comment.Text>

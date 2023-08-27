@@ -24,8 +24,8 @@ export const store: Store = {
     commentStore: new CommentStore()
 }
 
-export const StoreContext = createContext(store);
+export const StoreContext = createContext(store); //建立store環境
 
 export function useStore() {
-    return useContext(StoreContext);
+    return useContext(StoreContext);  //呼叫useStore時使用StoreContext環境
 }

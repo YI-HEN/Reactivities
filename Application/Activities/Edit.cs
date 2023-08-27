@@ -41,7 +41,7 @@ namespace Application.Activities
 
                 if (activity == null) return null;
 
-                _mapper.Map(request.Activity, activity);
+                _mapper.Map(request.Activity, activity); //用AutoMapper將修改好的映射到撈出的表單
 
                 var result = await _context.SaveChangesAsync() > 0;
 

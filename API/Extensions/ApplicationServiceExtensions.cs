@@ -37,7 +37,7 @@ namespace API.Extensions
                         var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
                         //連線字串由 fly secret list 中的 Key 為"DATABASE_URL"中提取值
 
-                        // Parse connection URL to connection string for Npgsql
+                        // 切割字串中需要的資料
                         connUrl = connUrl.Replace("postgres://", string.Empty); //以下做一些字串置換、切割...
                         var pgUserPass = connUrl.Split("@")[0];
                         var pgHostPortDb = connUrl.Split("@")[1];
@@ -52,7 +52,7 @@ namespace API.Extensions
                         connStr = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
                         //重組連線字串
                     }
-                    options.UseNpgsql(connStr);
+                    options.UseNpgsql(connStr);  //使用連接字串
                 });
 
             services.AddCors(opt =>
@@ -68,7 +68,7 @@ namespace API.Extensions
 
             });
             
-            services.AddMediatR(typeof(List.Handler)); 
+            services.AddMediatR(typeof(List.Handler)); //註冊Handler(同namespace註冊一次即可)
             services.AddAutoMapper(typeof(MappingProfiles).Assembly); //AutoMapper
             services.AddFluentValidationAutoValidation();
                 //當需要進行模型驗證時使用FluentValidation的驗證功能
